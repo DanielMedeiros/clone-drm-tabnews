@@ -1,0 +1,66 @@
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+node-repl-history
+
+# Next.js
+.next/
+.next/cache/
+out/
+.vercel/
+.vercel_build_output/
+
+# Build outputs
+dist/
+build/
+.parcel-cache/
+.cache/
+
+# Environment
+.env
+.env.*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Testing / coverage
+coverage/
+.nyc_output/
+jest-cache/
+
+# TypeScript
+*.tsbuildinfo
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Misc
+.turbo/
+.cache-loader/
+.yarn-integrity
+.pnp.*
+
+# Ignore embedded repository
+clone-drm-tabnews/
