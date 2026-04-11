@@ -1,10 +1,30 @@
 import database from "infra/database.js";
 
 async function status(request, response) {
-  const result = await database.query("SELECT 1 + 1 as SUM;");
-  console.log("result :>> ", result.rows);
+  const updatedAt = new Date().toISOString();
+  const databaseVersion = await database.query("SHOW server_version;");
+  const dataBaseVersionValue = databaseVersion.rows[0].server_version;
+  const databaseMaxConnections = await database.query("SHOW max_connections;");
+  const databaseMaxConnectionsValue =
+    databaseMaxConnections.rows[0].max_connections;
+
+  const databaseName = process.env.POSTGRES_DB;
+
+  const databaseOpenConnections = await database.query({
+    text: "SELECT count(*)::integer FROM pg_stat_activity WHERE datname = $1;",
+    values: [databaseName],
+  });
+  const databaseOpenConnectionsValue = databaseOpenConnections;
+
   response.status(200).json({
-    status: "são acima da média",
+    updated_at: updatedAt,
+    dependencies: {
+      database: {
+        version: dataBaseVersionValue,
+        max_connections: parseInt(databaseMaxConnectionsValue),
+        open_connections: databaseOpenConnectionsValue.rows.length,
+      },
+    },
   });
 }
 
