@@ -18,6 +18,12 @@ out/
 dist/
 build/
 .parcel-cache/
+
+# Environment files (secrets)
+.env
+.env.development
+.env.local
+.env.*.local
 .cache/
 
 # Environment
