@@ -13,10 +13,26 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 function getSSLValues() {
-  if (process.env.POSTGRES_CA) {
-    return { ca: process.env.POSTGRES_CA, rejectUnauthorized: false };
+  const host = process.env.POSTGRES_HOST || "localhost";
+
+  // Para localhost, não usa SSL
+  if (host === "localhost" || host === "127.0.0.1") {
+    return undefined;
   }
-  return undefined;
+
+  // Para hosts remotos, sempre usa SSL
+  if (process.env.POSTGRES_CA) {
+    return {
+      ca: process.env.POSTGRES_CA,
+      rejectUnauthorized: true,
+    };
+  }
+
+  // Se não tem CA específico, usa SSL com verificação desabilitada
+  // (comum em clouds como Aiven, Railway, etc)
+  return {
+    rejectUnauthorized: false,
+  };
 }
 
 const clientConfig = {
