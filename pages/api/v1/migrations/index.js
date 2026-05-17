@@ -1,15 +1,20 @@
 import migrationsRunner from "node-pg-migrate";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import database from "infra/database.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default async function migrations(request, response) {
   const dbClient = await database.getNewClient();
 
   try {
+    const migrationsDir = join(__dirname, "../../../../infra/migrations");
     const defaultMigrationsOptions = {
       dbClient: dbClient,
       dryRun: true,
-      dir: join("infra", "migrations"),
+      dir: migrationsDir,
       direction: "up",
       verbose: true,
       migrationsTable: "pgmigrations",

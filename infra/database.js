@@ -3,11 +3,14 @@ import dotenv from "dotenv";
 import path from "path";
 
 // Load environment variables from .env files if present (use project CWD)
-dotenv.config({
-  path: path.resolve(process.cwd(), ".env.local"),
-  override: false,
-});
-dotenv.config({ path: path.resolve(process.cwd(), ".env"), override: false });
+// Only load in non-production environments
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({
+    path: path.resolve(process.cwd(), ".env.local"),
+    override: false,
+  });
+  dotenv.config({ path: path.resolve(process.cwd(), ".env"), override: false });
+}
 
 function getSSLValues() {
   if (process.env.POSTGRES_CA) {
